@@ -1,0 +1,129 @@
+schema: spec-driven
+
+context: |
+  Project: Myanmar delivery management web app
+  Type: Internal commercial web application for a local delivery business
+  Primary users: Admin, office staff/dispatcher, rider
+  Future user: Merchant portal user
+
+  Business domain:
+  - Merchant = shop/seller/client who uses our delivery service to send parcels
+  - Receiver = end customer who receives the parcel
+  - Rider = delivery staff
+  - COD = cash collected from receiver and later settled back to merchant after deducting delivery fees or other charges
+  - Settlement = process of calculating how much money must be paid back to each merchant
+
+  Product goals:
+  - Launch quickly and be usable for real business operations
+  - Prioritize simplicity, reliability, and clear accounting
+  - Optimize for low traffic in the first few months
+  - Prefer maintainable full-stack architecture over premature microservices
+
+  Tech stack:
+  - Next.js App Router
+  - TypeScript
+  - Tailwind CSS
+  - shadcn/ui
+  - Supabase (database, auth, storage, optional realtime later)
+  - Drizzle ORM
+  - Cloudflare Pages for deployment
+  - Cloudflare Cron for scheduled keep-alive/maintenance jobs
+
+  Architecture principles:
+  - Start with a Next.js full-stack monolith
+  - Prefer Server Actions for trusted internal form workflows
+  - Use Route Handlers only when an external API boundary is needed
+  - Keep business logic out of page components
+  - Keep database access centralized
+  - Design for future extraction of services, but do not split backend now
+
+  MVP modules:
+  - Authentication for internal staff
+  - Merchant management
+  - Rider management
+  - Parcel management
+  - Dispatch board with township-based filtering and rider assignment
+  - Parcel status updates
+  - Merchant settlement summaries
+  - Basic reporting/dashboard
+
+  Non-goals for MVP:
+  - No separate NestJS/Express backend
+  - No mobile app
+  - No route optimization engine
+  - No overengineered realtime everywhere
+  - No merchant self-registration initially
+
+  Domain rules:
+  - Merchant is not the end receiver
+  - COD is not company revenue
+  - Delivery fee and other fees must be stored separately from COD
+  - Settlement calculations must be auditable
+  - Parcel statuses should be explicit and consistent
+  - Money-related changes should be traceable
+
+  Suggested core statuses:
+  - pending
+  - assigned
+  - out_for_delivery
+  - delivered
+  - failed_delivery
+  - return_to_sender
+  - settled
+
+  Quality expectations:
+  - Strong typing and explicit domain models
+  - Clear naming over clever naming
+  - Avoid hidden business rules in UI code
+  - Keep forms and workflows easy for non-technical office staff
+  - Prefer boring, readable solutions
+
+artifacts:
+  proposal:
+    instructions: |
+      Focus on business value, operational workflow, and implementation phases.
+      Include assumptions and unresolved business rules.
+      Avoid enterprise-scale complexity unless justified.
+
+  spec:
+    instructions: |
+      Write concrete, implementation-ready specs for a brownfield-friendly Next.js project.
+      Include:
+      - user roles
+      - entities and relationships
+      - validation rules
+      - status flows
+      - settlement logic
+      - edge cases
+      - acceptance criteria
+      Prefer incremental delivery over large rewrites.
+
+  tasks:
+    instructions: |
+      Break work into small, reviewable tasks suitable for agent-assisted implementation.
+      Tasks should:
+      - be vertically sliced when possible
+      - avoid changing too many files at once
+      - separate schema, business logic, and UI concerns
+      - include validation and testing work
+      - mention manual QA steps for money-related flows
+
+  code:
+    instructions: |
+      Generate code that matches the project stack and architecture.
+      Prefer:
+      - Next.js App Router
+      - Server Actions for internal mutations
+      - Drizzle for DB access
+      - Supabase only where needed
+      Keep modules cohesive and avoid framework-heavy abstractions.
+
+  review:
+    instructions: |
+      Review for:
+      - accounting correctness
+      - status transition correctness
+      - role/permission issues
+      - maintainability
+      - unnecessary complexity
+      - accidental mixing of COD and company revenue
