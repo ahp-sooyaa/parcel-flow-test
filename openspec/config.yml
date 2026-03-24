@@ -24,7 +24,7 @@ context: |
   - TypeScript
   - Tailwind CSS
   - shadcn/ui
-  - Supabase (database, auth, storage, optional realtime later)
+  - Supabase (database, auth, storage, realtime)
   - Drizzle ORM
   - Cloudflare Pages for deployment
   - Cloudflare Cron for scheduled keep-alive/maintenance jobs

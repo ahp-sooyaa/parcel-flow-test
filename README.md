@@ -28,6 +28,12 @@ npm run preview
 # or similar package manager command
 ```
 
+## UI Components
+
+- Shared shadcn/ui primitives are stored in `src/components/ui`.
+- Add new primitives with `npx shadcn@latest add <component-name>`.
+- Keep shared class helpers in `src/lib/utils.ts` (`cn`) and import UI components via `@/components/ui/...`.
+
 ## Deploy
 
 Deploy the application to Cloudflare:
