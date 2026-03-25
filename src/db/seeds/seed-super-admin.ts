@@ -1,6 +1,25 @@
+import { config } from "dotenv";
 import { findAuthUserIdByEmail, upsertAppUserRole } from "@/db/queries/app-user";
 import { getServerEnv } from "@/lib/env";
 import { createSupabaseAdminClient } from "@/lib/supabase/admin";
+
+type SeedEnvironment = "development" | "production";
+
+function resolveSeedEnvironment(argv: string[]): SeedEnvironment {
+  const target = argv[2];
+
+  if (target === "development" || target === "production") {
+    return target;
+  }
+
+  throw new Error(
+    'Missing or invalid seed environment. Use "development" or "production". Example: pnpm run dev:db:seed',
+  );
+}
+
+function resolveEnvFile(target: SeedEnvironment) {
+  return target === "development" ? ".env.development" : ".env.production";
+}
 
 async function ensureSuperAdmin() {
   const env = getServerEnv();
@@ -45,8 +64,10 @@ async function main() {
   let exitCode = 0;
 
   try {
+    const target = resolveSeedEnvironment(process.argv);
+    config({ path: resolveEnvFile(target) });
     await ensureSuperAdmin();
-    console.log("Super admin seed completed.");
+    console.log(`Super admin seed completed for ${target}.`);
   } catch (error: unknown) {
     exitCode = 1;
     console.error(error);

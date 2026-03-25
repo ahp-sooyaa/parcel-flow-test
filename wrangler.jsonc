@@ -1,53 +1,50 @@
-/**
- * For more details on how to configure Wrangler, refer to:
- * https://developers.cloudflare.com/workers/wrangler/configuration/
- */
-/**
- * For more details on how to configure Wrangler, refer to:
- * https://developers.cloudflare.com/workers/wrangler/configuration/
- */
 {
   "$schema": "node_modules/wrangler/config-schema.json",
   "name": "parcel-flow",
   "main": ".open-next/worker.js",
   "compatibility_date": "2025-09-27",
   "compatibility_flags": ["nodejs_compat", "global_fetch_strictly_public"],
+
   "assets": {
     "binding": "ASSETS",
     "directory": ".open-next/assets",
   },
+
   "images": {
-    // Enable image optimization
-    // see https://opennext.js.org/cloudflare/howtos/image
     "binding": "IMAGES",
   },
+
   "services": [
     {
-      // Self-reference service binding, the service name must match the worker name
-      // see https://opennext.js.org/cloudflare/caching
       "binding": "WORKER_SELF_REFERENCE",
       "service": "parcel-flow",
     },
   ],
+
   "observability": {
     "enabled": true,
   },
-  /**
-   * Smart Placement
-   * https://developers.cloudflare.com/workers/configuration/smart-placement/#smart-placement
-   */
-  // "placement": {  "mode": "smart" }
-  /**
-   * Bindings
-   * Bindings allow your Worker to interact with resources on the Cloudflare Developer Platform, including
-   * databases, object storage, AI inference, real-time communication and more.
-   * https://developers.cloudflare.com/workers/runtime-apis/bindings/
-   */
-  /**
-   * Environment Variables
-   * https://developers.cloudflare.com/workers/wrangler/configuration/#environment-variables
-   * Note: Use secrets to store sensitive data.
-   * https://developers.cloudflare.com/workers/configuration/secrets/
-   */
-  // "vars": {  "MY_VARIABLE": "production_value" }
+
+  "vars": {
+    "NEXT_PUBLIC_SUPABASE_URL": "https://npbwkvizxzqysqhrbwav.supabase.co",
+    "NEXT_PUBLIC_SUPABASE_PUBLISHABLE_DEFAULT_KEY": "sb_publishable_kXzghlZ-R6HRdkz8PrdggQ_r9Y3VSuI",
+  },
+
+  "env": {
+    "staging": {
+      "images": {
+        "binding": "IMAGES",
+      },
+      "services": [
+        {
+          "binding": "WORKER_SELF_REFERENCE",
+          "service": "parcel-flow-staging",
+        },
+      ],
+      "vars": {
+        "NEXT_PUBLIC_SUPABASE_URL": "https://ghbzbobauoigjbitdlss.supabase.co",
+        "NEXT_PUBLIC_SUPABASE_PUBLISHABLE_DEFAULT_KEY": "sb_publishable_5FmTZ6jXUse6ryNryiyCyQ_FBjsdzLc",
+      },
+    },
+  },
 }
