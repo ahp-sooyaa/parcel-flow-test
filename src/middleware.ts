@@ -4,7 +4,7 @@ import { getPublicEnv } from "@/lib/env";
 
 const AUTH_ROUTES = new Set(["/sign-in", "/sign-up"]);
 
-export async function proxy(request: NextRequest) {
+export async function middleware(request: NextRequest) {
   const env = getPublicEnv();
   let response = NextResponse.next({ request });
 

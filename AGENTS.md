@@ -11,7 +11,7 @@ Prioritize fast delivery, operational clarity, and accounting correctness over a
 - shadcn/ui
 - Drizzle ORM
 - Supabase
-- Cloudflare Pages
+- Cloudflare Workers
 
 ## Core rules
 - Keep the project as a Next.js full-stack monolith for now.
